@@ -1,6 +1,587 @@
-<html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SuperWaste Connect — Portail des outils La Fabuleuse Cantine</title>
+<meta name="description" content="Le portail interne qui regroupe les outils de La Fabuleuse Cantine : VenueCast, FAB-OS et Costrat." />
 
-Coucou claude jtm
+<!-- ============================================================= -->
+<!--  ZONE ÉDITABLE : modifiez ici les infos générales et les 3    -->
+<!--  outils. Le reste du fichier n'a normalement pas à être touché.-->
+<!-- ============================================================= -->
+<script>
+  window.SITE = {
+    brand: "SuperWaste Connect",
+    tagline: "Le portail interne de La Fabuleuse Cantine",
+    intro: "Un seul point d'entrée vers les outils métier que nous avons conçus pour piloter nos restaurants, nos salles et notre franchise de territoire.",
+    contactEmail: "contact@lafabuleusecantine.fr",
+    logoPng: "assets/la-fabuleuse-cantine-logo.png",
+    footerNote: "Accès réservé aux équipes. Besoin d'un accès ? Contactez votre référent.",
+  };
 
-  
+  window.TOOLS = [
+    {
+      id: "venuecast",
+      name: "VenueCast",
+      badge: "Prévisions urbaines",
+      url: "https://venuecast.polsia.app",
+      description:
+        "Anticipez ce que votre ville vous réserve. VenueCast agrège météo, événements locaux, vacances scolaires et saisonnalité en une seule prévision, de 7 jours à 3 mois.",
+      audience: "Pour restaurants, salles & événements",
+      cta: "Ouvrir VenueCast",
+      theme: "venuecast",
+    },
+    {
+      id: "fabos",
+      name: "FAB-OS",
+      badge: "La Fabuleuse Cantine",
+      url: "https://fab-os.polsia.app",
+      description:
+        "Le système d'exploitation du réseau de restaurants régénératifs de La Fabuleuse Cantine. Concilier l'économie, le vivant et le goût.",
+      audience: "Pour les équipes FAB",
+      cta: "Ouvrir FAB-OS",
+      theme: "fabos",
+    },
+    {
+      id: "costrat",
+      name: "Costrat",
+      badge: "Pilotage stratégique",
+      url: "https://costrat.polsia.app",
+      description:
+        "Le comité stratégique de votre franchise de territoire, en temps réel. P&L multi-entités, impact social et écologique, décisions et scoring de maturité, en un seul outil.",
+      audience: "Pour les comités & directions",
+      cta: "Ouvrir Costrat",
+      theme: "costrat",
+    },
+  ];
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&family=JetBrains+Mono:wght@500&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+  :root {
+    --bg: #f6f5f1;
+    --bg-alt: #ffffff;
+    --ink: #0f1115;
+    --ink-soft: #5b6170;
+    --line: #e7e4dc;
+    --accent: #1f3a2e;
+    --radius: 20px;
+    --shadow: 0 1px 2px rgba(15, 17, 21, 0.04),
+      0 10px 30px -12px rgba(15, 17, 21, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .site-header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: saturate(1.2) blur(8px);
+  }
+
+  .site-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand { display: flex; align-items: center; gap: 14px; }
+
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 2px solid #3b1877;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 13px;
+    color: #3b1877;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .brand-logo .fallback {
+    display: none;
+  }
+
+  .brand-logo.is-fallback .fallback {
+    display: block;
+  }
+
+  .brand-logo.is-fallback img {
+    display: none;
+  }
+
+  .brand-text { line-height: 1.1; }
+  .brand-name { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; }
+  .brand-sub { font-size: 12px; color: var(--ink-soft); margin-top: 3px; }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .nav a:hover { color: var(--ink); }
+  .nav .pill {
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .hero { padding: 80px 0 48px; }
+  .hero h1 {
+    font-size: clamp(38px, 5.5vw, 64px);
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    margin: 0 0 20px;
+    font-weight: 800;
+    max-width: 900px;
+  }
+  .hero .accent { color: var(--accent); }
+  .hero p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 640px;
+    line-height: 1.55;
+    margin: 0;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+
+  .section-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin: 56px 0 24px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .section-title h2 { font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+  .section-title .count { color: var(--ink-soft); font-size: 14px; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    padding-bottom: 100px;
+    align-items: stretch;
+  }
+  @media (max-width: 980px) { .cards { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 680px) { .cards { grid-template-columns: 1fr; } }
+
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 380px;
+    padding: 28px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: var(--shadow);
+    isolation: isolate;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 2px 4px rgba(15, 17, 21, 0.05),
+      0 22px 44px -18px rgba(15, 17, 21, 0.22);
+  }
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .card-name { font-size: 24px; font-weight: 800; letter-spacing: -0.01em; }
+  .card-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .card-audience {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    font-weight: 600;
+    opacity: 0.85;
+  }
+  .card-title {
+    font-size: 28px;
+    line-height: 1.1;
+    margin: 0 0 14px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .card-desc { font-size: 14px; line-height: 1.55; opacity: 0.85; margin: 0 0 22px; }
+  .card-visual { margin: 10px 0 20px; border-radius: 14px; overflow: hidden; }
+
+  .card-cta {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    align-self: flex-start;
+    transition: gap 0.2s ease;
+  }
+  .card:hover .card-cta { gap: 12px; }
+
+  .card-url {
+    position: absolute;
+    bottom: 16px;
+    right: 22px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    opacity: 0.5;
+  }
+
+  /* Thème VenueCast */
+  .card.venuecast { background: #0e1422; color: #f3f5fa; }
+  .card.venuecast::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 80% at 100% 0%, rgba(255, 94, 25, 0.22), transparent 55%);
+    z-index: -1;
+  }
+  .card.venuecast .card-name .hot { color: #ff5e19; }
+  .card.venuecast .card-badge {
+    background: rgba(255, 94, 25, 0.15);
+    color: #ff915e;
+    border: 1px solid rgba(255, 94, 25, 0.35);
+  }
+  .card.venuecast .card-audience { color: #ff7a3a; }
+  .card.venuecast .card-title .accent { color: #ff5e19; }
+  .card.venuecast .card-desc { color: #c3c9d6; }
+  .card.venuecast .card-cta { background: #ff5e19; color: #0e1422; }
+  .card.venuecast .forecast {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    background: #141b2d;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 14px;
+    border-radius: 12px;
+  }
+  .card.venuecast .forecast .day {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+  }
+  .card.venuecast .forecast .day.hot {
+    background: rgba(255, 94, 25, 0.14);
+    border: 1px solid rgba(255, 94, 25, 0.45);
+  }
+  .card.venuecast .forecast .d {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: #8d94a7;
+    text-transform: uppercase;
+  }
+  .card.venuecast .forecast .v { font-size: 20px; font-weight: 700; margin-top: 4px; }
+  .card.venuecast .forecast .l { font-size: 10px; color: #ff915e; margin-top: 2px; }
+
+  /* Thème FAB-OS */
+  .card.fabos {
+    background: linear-gradient(180deg, #fbf6df 0%, #f3efc6 100%);
+    color: #2b1560;
+    font-family: "Playfair Display", serif;
+  }
+  .card.fabos .card-audience,
+  .card.fabos .card-badge,
+  .card.fabos .card-url,
+  .card.fabos .card-cta { font-family: "Inter", sans-serif; }
+  .card.fabos .card-name {
+    font-family: "Inter", sans-serif;
+    color: #3b1877;
+    letter-spacing: 0.02em;
+  }
+  .card.fabos .card-badge { background: #3b1877; color: #fbf6df; }
+  .card.fabos .card-audience { color: #5a3aa8; }
+  .card.fabos .card-title {
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.12;
+    color: #3b1877;
+  }
+  .card.fabos .card-title em { color: #2e7d3e; font-style: italic; }
+  .card.fabos .card-desc { font-family: "Inter", sans-serif; color: #4a3472; }
+  .card.fabos .card-cta { background: #3b1877; color: #fbf6df; }
+  .card.fabos .lfc-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2.5px solid #3b1877;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: #3b1877;
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin: 4px 0 8px;
+    box-shadow: 0 4px 14px rgba(59, 24, 119, 0.18);
+  }
+  .card.fabos .sig {
+    font-family: "Playfair Display", serif;
+    font-style: italic;
+    font-size: 13px;
+    color: #3b1877;
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+
+  /* Thème Costrat */
+  .card.costrat { background: #f6f5f1; color: #0f1115; border: 1px solid var(--line); }
+  .card.costrat .card-name .dot { color: #1f3a2e; }
+  .card.costrat .card-badge { background: #eceae2; color: #1f3a2e; }
+  .card.costrat .card-audience { color: #1f3a2e; }
+  .card.costrat .card-title { color: #0f1115; font-weight: 800; }
+  .card.costrat .card-title .accent { color: #1f3a2e; }
+  .card.costrat .card-desc { color: #5b6170; }
+  .card.costrat .card-cta { background: #1f3a2e; color: #f6f5f1; }
+  .card.costrat .bullets {
+    list-style: none;
+    padding: 0;
+    margin: 6px 0 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 14px;
+    font-size: 13px;
+    color: #0f1115;
+  }
+  .card.costrat .bullets li::before { content: "• "; color: #b08a4a; font-weight: 700; }
+  .card.costrat .stats {
+    display: flex;
+    gap: 22px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    margin-top: auto;
+  }
+  .card.costrat .stats .n { font-size: 22px; font-weight: 800; color: #0f1115; }
+  .card.costrat .stats .l { font-size: 11px; color: #5b6170; margin-top: 2px; }
+
+  @media (max-width: 900px) {
+    .card-url { display: none; }
+  }
+
+  .site-footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0 48px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .site-footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .site-footer a { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand" aria-label="SuperWaste Connect">
+      <div class="brand-logo is-fallback" title="La Fabuleuse Cantine">
+        <img id="brandLogoImg" alt="Logo La Fabuleuse Cantine" />
+        <span class="fallback">LFC</span>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name" id="brandName">SuperWaste Connect</div>
+        <div class="brand-sub" id="brandSub">Portail interne · La Fabuleuse Cantine</div>
+      </div>
+    </a>
+    <nav class="nav">
+      <a href="#tools">Outils</a>
+      <a id="contactLink" class="pill" href="mailto:contact@lafabuleusecantine.fr">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-eyebrow" id="heroEyebrow">Portail des équipes</div>
+      <h1>
+        Tous nos outils internes,
+        <span class="accent">un seul portail.</span>
+      </h1>
+      <p id="heroIntro">
+        Un seul point d'entrée vers les outils métier que nous avons conçus
+        pour piloter nos restaurants, nos salles et notre franchise de territoire.
+      </p>
+    </div>
+  </section>
+
+  <section id="tools">
+    <div class="container">
+      <div class="section-title">
+        <h2>Les outils SuperWaste</h2>
+        <div class="count" id="toolsCount">3 outils disponibles</div>
+      </div>
+      <div class="cards" id="cardsGrid"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div id="footerNote">
+      Accès réservé aux équipes. Besoin d'un accès ? Contactez votre référent.
+    </div>
+    <div>© <span id="year"></span> La Fabuleuse Cantine</div>
+  </div>
+</footer>
+
+<script>
+  const site = window.SITE;
+  const tools = window.TOOLS;
+
+  document.getElementById("brandName").textContent = site.brand;
+  document.getElementById("brandSub").textContent = site.tagline;
+  document.getElementById("heroIntro").textContent = site.intro;
+  document.getElementById("footerNote").textContent = site.footerNote;
+  document.getElementById("contactLink").href = "mailto:" + site.contactEmail;
+  document.getElementById("toolsCount").textContent =
+    tools.length + " outil" + (tools.length > 1 ? "s" : "") + " disponible" + (tools.length > 1 ? "s" : "");
+  document.getElementById("year").textContent = new Date().getFullYear();
+  document.title = site.brand + " — " + site.tagline;
+
+  const brandLogo = document.getElementById("brandLogoImg");
+  const brandLogoWrapper = brandLogo.parentElement;
+  if (site.logoPng) {
+    brandLogo.src = site.logoPng;
+    brandLogo.addEventListener("load", () => brandLogoWrapper.classList.remove("is-fallback"));
+    brandLogo.addEventListener("error", () => brandLogoWrapper.classList.add("is-fallback"));
+  }
+
+  const visuals = {
+    venuecast: (t) => `
+      <div class="card-audience">${t.audience}</div>
+      <div class="card-name"><span>Venue</span><span class="hot">Cast</span></div>
+      <div class="card-visual">
+        <div class="forecast" aria-hidden="true">
+          <div class="day"><div class="d">Lun</div><div class="v">62</div><div class="l">Moyen</div></div>
+          <div class="day hot"><div class="d">Mar</div><div class="v">89</div><div class="l">Élevé</div></div>
+          <div class="day"><div class="d">Mer</div><div class="v">34</div><div class="l">Faible</div></div>
+          <div class="day"><div class="d">Jeu</div><div class="v">71</div><div class="l">Bon</div></div>
+        </div>
+      </div>
+      <h3 class="card-title">Anticipez ce que votre ville vous <span class="accent">réserve</span>.</h3>
+      <p class="card-desc">${t.description}</p>
+    `,
+    fabos: (t) => `
+      <div class="card-audience">${t.audience}</div>
+      <div class="card-name">FAB-OS</div>
+      <div class="card-visual" style="display:flex;align-items:center;gap:14px;">
+        <div class="lfc-logo">LFC</div>
+        <div class="sig">La Fabuleuse Cantine</div>
+      </div>
+      <h3 class="card-title">Je réconcilie <em>l'économie,</em><br/>le vivant et le goût.</h3>
+      <p class="card-desc">${t.description}</p>
+    `,
+    costrat: (t) => `
+      <div class="card-audience">${t.audience}</div>
+      <div class="card-name">costrat<span class="dot">.</span></div>
+      <h3 class="card-title">Le pilotage de votre <span class="accent">franchise de territoire</span>, en temps réel.</h3>
+      <ul class="bullets">
+        <li>Enracinée & régénérative</li>
+        <li>Robuste économiquement</li>
+        <li>Respectueuse du vivant</li>
+        <li>Construite en coopération</li>
+      </ul>
+      <p class="card-desc">${t.description}</p>
+      <div class="stats">
+        <div><div class="n">3</div><div class="l">niveaux d'accès</div></div>
+        <div><div class="n">6</div><div class="l">modules</div></div>
+        <div><div class="n">7</div><div class="l">axes régénératifs</div></div>
+      </div>
+    `,
+  };
+
+  const grid = document.getElementById("cardsGrid");
+  grid.innerHTML = tools
+    .map((t) => {
+      const visual = (visuals[t.theme] || (() => ""))(t);
+      return `
+        <a class="card ${t.theme}" href="${t.url}" target="_blank" rel="noopener">
+          <div class="card-head">
+            <span class="card-badge">${t.badge}</span>
+          </div>
+          ${visual}
+          <span class="card-cta">${t.cta} →</span>
+          <div class="card-url">${t.url.replace(/^https?:\/\//, "")} ↗</div>
+        </a>
+      `;
+    })
+    .join("");
+</script>
+
+</body>
 </html>
